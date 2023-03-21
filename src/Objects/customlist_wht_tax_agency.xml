@@ -1,0 +1,14 @@
+<customlist scriptid="customlist_wht_tax_agency">
+  <description></description>
+  <isinactive>F</isinactive>
+  <ismatrixoption>F</ismatrixoption>
+  <isordered>T</isordered>
+  <name>Tax Agency</name>
+  <customvalues>
+    <customvalue scriptid="val_57088_t2397753_920">
+      <abbreviation>a</abbreviation>
+      <isinactive>F</isinactive>
+      <value>agency ABC</value>
+    </customvalue>
+  </customvalues>
+</customlist>

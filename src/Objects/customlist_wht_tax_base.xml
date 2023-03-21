@@ -1,0 +1,14 @@
+<customlist scriptid="customlist_wht_tax_base">
+  <description></description>
+  <isinactive>F</isinactive>
+  <ismatrixoption>F</ismatrixoption>
+  <isordered>T</isordered>
+  <name>WHT Tax Base</name>
+  <customvalues>
+    <customvalue scriptid="val_57023_t2397753_947">
+      <abbreviation>a</abbreviation>
+      <isinactive>F</isinactive>
+      <value>amount</value>
+    </customvalue>
+  </customvalues>
+</customlist>
