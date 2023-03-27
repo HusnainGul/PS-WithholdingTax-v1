@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+  <head>
+    <!-- <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" /> -->
+    <link name="NotoSans" type="font" subtype="truetype" src="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93707&amp;c=TSTDRV925863&amp;h=QDgjGgDls4WmrMSxV94d8MwGW5azjfu5RIuUNiFhAKRbb21X&amp;_xt=.ttf" src-bold="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93705&amp;c=TSTDRV925863&amp;h=MD6OJW3Wbx_4ZrU4TNUKZyehQnID7x-e0qoBKeEB87_KiBCz&amp;_xt=.ttf" src-italic="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93708&amp;c=TSTDRV925863&amp;h=7lWgfNgxsoKV5SAn8oEC94Bu1ebFhMVA_FiGJMH593lWQJue&amp;_xt=.ttf" src-bolditalic="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93706&amp;c=TSTDRV925863&amp;h=U3hPFlchHgvD2OqDW8qJ7-WZe6EEiLFAWeBXAfj5RZKlqLgv&amp;_xt=.ttf" bytes="2" />
+    <!-- <#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if> -->
+    <macrolist>
+      <macro id="nlheader">
+            &nbsp;
+        </macro>
+    </macrolist>
+    <style type="text/css">* {
+      <#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+        <#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+          <#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+            <#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+              <#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+                <#else>
+			font-family: NotoSans, sans-serif;
+                </#if>
+		}
+		td p { align:left }
+		 #bottom {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+				 .pic div { position:absolute; width:5; height:5}
+              </style>
+            </head>
+            <body header="nlheader" header-height="0%"   size="Letter-LANDSCAPE">
+              <table class="header" style="width: 100%; font-size: 10pt;">
+                <tr >
+                  <td width="20%" style="font-size:25px; color:#237e6d;" >
+                    <b>ใบแนบ
+                      <span font-size="45px" > ภ.ง.ด.3
+                      
+                      </span>
+                    </b>
+                  </td>
+                  <td  width="1%" font-size="16px" margin-top="28px" style="color:#237e6d;">
+                    <b>เลขประจำตัวผู้เสียภาษีอากร </b>
+                    <em>(ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย)</em>
+                  </td>
+                  <td  width="28%" style=" bottom: 50; left: 0;">
+                    <table width="80%" >
+                      <tr  style="color:#237e6d;">
+                        <td margin-top="26px">
+                          <input maxlength="1" name="0" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black" type="text" value="1" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="1" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="3" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="2" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="4" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="3" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="6" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="4" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="8" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="5" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="6" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="4" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="7" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="7" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="8" style="font-size:18px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="9" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="5" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="10" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="8" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="11" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="20%" >
+                    <table width="65%">
+                      <tr style="color:#237e6d;">
+                        <td margin-top="26px" font-size="15px">สาขาที่ </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="13" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-15px" type="text" value="0" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="14" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-15px" type="text" value="0" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="15" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-15px" type="text" value="0" />
+                        </td>
+                        <td margin-top="26px">
+                          <input maxlength="1" name="16" style="font-size:20px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-15px" type="text" value="0" />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <table align="right" class="header" style="font-size: 13pt; color:#237e6d;" width="18%">
+                <tr>
+                  <td  width="10%">แผ่นที่ </td>
+                  <td width="20%" align="center"  style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;">1</td>
+                  <td width="10%">ในจำนวน</td>
+                  <td width="10%" align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;">1</td>
+                  <td width="20%">แผ่น</td>
+                </tr>
+                <tr>
+                  <td>
+				
+				 </td>
+                </tr>
+              </table>
+              <!-- 
+   <table width="100%" class="table1" border="1">
+
+	   <tr>
+		   <td>
+			 
+			 </td>
+     </tr>
+	 </table>
+	 -->
+              <table width="100%" class="table1" border="1" style="color:#237e6d;">
+                <tr>
+                  <th border-bottom="1" align="center" rowspan="3" width="5%">ลำ
+                    <br/> ดับ
+                    <br/> ที่
+                  </th>
+                  <th align="center" border-left="1" width="30%">
+                    <b>เลขประจำตัวผู้เสียภาษีอากร</b>
+                    <em>(ของผู้มีเงินได้)</em>
+                  </th>
+                  <th align="center" rowspan="2" border-left="1" border-bottom="1" width="10%">
+                    <b> สาขาที่ </b>
+                  </th>
+                  <th align="center" colspan="4" border-left="1" width="30%">
+                    <b> รายละเอียดเกี่ยวกับการจ่ายเงิน </b>
+                  </th>
+                  <th align="center" rowspan="3" border-left="1" border-bottom="1" border-right="1" width="10%">
+                    <b> จำนวนเงินภาษี </b>
+                    <br/>
+                    <b> ที่หักและนำส่ง </b>
+                    <br/>
+                    <b> ในครั้งนี้ </b>
+                  </th>
+                  <th align="center" rowspan="3" border-bottom="1" width="1%">   2
+                    <br/>
+                    <b>  เงื่อนไข</b>
+                    <br/>
+                    <b> ไข </b>
+                  </th>
+                </tr>
+                <tr>
+                  <th border-top="1" border-left="1" border-bottom="1" align="center" width="50%">
+                    <table style="font-size: 10pt;">
+                      <tr>
+                        <th  align="center">
+                          <b> ชื่อและที่อยู่ของผู้มีเงินได้ </b>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th  align="center">
+                          <em> (ให้ระบุให้ชัดเจนว่าเป็น บริษัทจำ�กัด ห้างหุ้นส่วนจำ�กัด หรือห้างหุ้นส่วนสามัญนิติบุคคล </em>
+                        </th>
+                      </tr>
+                      <tr>
+                        <th  align="center">และให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)</th>
+                      </tr>
+                    </table>
+                  </th>
+                  <th align="center" border-top="1" border-bottom="1" border-left="1" width="10%">
+                    <b> วัน เดือนปี </b>
+                    <br/>
+                    <b> ที่จ่าย </b>
+                  </th>
+                  <th align="center" border-left="1" border-top="1" border-bottom="1" width="20%">
+                    <b> ประเภทเงินได้ </b>
+                    <br/>
+                    <b> พึงประเมินที่จ่าย </b>
+                  </th>
+                  <th align="center" border-left="1" border-top="1" border-bottom="1" width="5%">
+                    <b> อัตรา </b>
+                    <br/>
+                    <b> ภาษี </b>
+                    <br/>
+                    <b> ร้อยละ </b>
+                  </th>
+                  <th align="center" border-left="1" border-top="1" border-bottom="1" width="15%">
+                    <b> จำนวนเงินที่จ่ายในครั้งนี้ </b>
+                  </th>
+                </tr>
+                <tr>
+						
+					</tr>
+                <tr>
+                  <td  border-bottom="1" align="center"> 1 </td>
+                  <td border-left="1" border-bottom="1">
+                    <table  width="100%">
+                      <tr>
+                        <td>
+                          <table>
+                            <tr>
+                              <td >
+                                <input maxlength="1" name="0" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black" type="text" value="1" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="1" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="3" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="2" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="4" />
+                              </td>
+                              <td>
+                                <input maxlength="1" name="3" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="6" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="4" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="8" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="5" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="6" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="4" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="7" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="7" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="8" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="9" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="5" />
+                              </td>
+                              <td >
+                                <input maxlength="1" name="10" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="8" />
+                              </td>
+                              <td>
+                                <input maxlength="1" name="11" style="font-size:15px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;margin-left:-6px" type="text" value="9" />
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td >
+                          <table width="100%" >
+                            <tr>
+                              <td  width="2%"> ชื่อ</td>
+                              <td   style="border-bottom: 1px dotted #99A4BB; color: #237e6d;">A Company </td>
+                              <!-- <td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                            </tr>
+                          </table>
+                        </td>
+                        <!-- <td width="2%">  ชื่อ. </td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; width:200%; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                      </tr>
+                      <tr>
+                        <td >
+                          <table width="100%" >
+                            <tr>
+                              <td  width="3%"> ที่อยู่</td>
+                              <td   style="border-bottom: 1px dotted #99A4BB; color: #237e6d;">X5C3+6F4 สถานรับเลี้ยงเด็ก อัล ยันนัท ภาค 32 </td>
+                              <!-- <td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                            </tr>
+                          </table>
+                        </td>
+                        <!-- <td width="2%">  ชื่อ. </td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; width:200%; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                      </tr>
+                      <tr>
+                        <td >
+                          <table width="100%">
+                            <tr>
+                              <td  style="border-bottom: 1px dotted #237e6d;">พำกด</td>
+                              <!-- <td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                            </tr>
+                          </table>
+                        </td>
+                        <!-- <td width="2%">  ชื่อ. </td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; width:200%; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td> -->
+                      </tr>
+                    </table>
+                    <!-- <table width="92%">
+									   <tr>
+										    <td width="2%">  ชื่อ. </td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; width:200%; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ชื่อ" type="text" value="" /></td>
+										 </tr>
+										  <tr>
+										    <td width="2%"> ที่อยู่</td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none;  width:200%; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ที่อยู่" type="text" value="" /></td>
+										 </tr>
+										  <tr>
+										    <td width="0.1%"></td>
+												<td  align="center" style="border-bottom: 1.5px dotted #99A4BB; color: #237e6d;"><input style="border: none; background-color:white; border-color:#001B54; font-color:#237e6d; font-size:16px;" name="ที่อยู่2" type="text" value="" /></td>
+										 </tr>
+										 <tr> </tr>
+
+										 
+
+									 </table> -->
+                  </td>
+                  <td border-left="1" border-bottom="1">
+                    <table>
+                      <tr>
+                        <td>
+                          <input maxlength="1" name="13" style="font-size:18px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;" type="text" value="0" />
+                        </td>
+                        <td>
+                          <input maxlength="1" name="14" style="font-size:18px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;" type="text" value="0" />
+                        </td>
+                        <td>
+                          <input maxlength="1" name="15" style="font-size:18px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;" type="text" value="0" />
+                        </td>
+                        <td>
+                          <input maxlength="1" name="16" style="font-size:18px; width:10px; height:17px; background-color:white; border-color:#001B54; font-color:black;" type="text" value="0" />
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td border-left="1" border-bottom="1" >
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">11-12-2022</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td border-left="1" border-bottom="1">
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">Rental</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td border-left="1" border-bottom="1">
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">5</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td border-left="1" border-bottom="1">
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">1000</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td border-left="1" border-bottom="1" border-right="1">
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">50</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td>
+                    <table  width="100%">
+                      <tr>
+                        <td  style="height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d;">1</td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px;"></td>
+                      </tr>
+                      <tr>
+                        <td  style="border-bottom: 1px dotted #237e6d; height:30px; "></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="6"   align="right"> รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ
+                    <b> ใบแนบ ภ.ง.ด.53 </b> แผ่นอื่น (ถ้ามี))
+                  </td>
+                  <td  align="right" border-left="1">
+                    <b> 0.00 </b>
+                  </td>
+                  <td  align="right" border-left="1" border-right="1">
+                    <b> 0.00 </b>
+                  </td>
+                </tr>
+              </table>
+              <table width="100%" style="color:#237e6d;">
+                <tr>
+                  <td border-left="1" border-bottom="1" width="50%">
+                    <table width="100%">
+                      <tr>
+                        <td colspan="3">
+                          <em> (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่นตามเงินได้แต่ละประเภท) </em>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <b>
+                            <u>หมายเหตุ </u>
+                          </b>
+                        </td>
+                        <td>
+									     1
+									 </td>
+                        <td>
+									   ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่านายหน้า ค่าแห่งกู๊ดวิลล์ ดอกเบี้ยเงินฝาก ดอกเบี้ยตั๋วเงิน เงินปันผล เงินส่วนแบ่ง
+                          <br/>
+										  กำไร ค่าเช่าอาคาร ค่าสอบบัญชี ค่าออกแบบ ค่าก่อสร้างโรงเรียน ค่าซื้อเครื่องพิมพ์ดีด ค่าซื้อพืชผลทางการเกษตร
+                          <br/>
+											(ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ
+                          <br/>
+											เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+									  
+									 </td>
+                        <td>
+									    2
+									 </td>
+                        <td>
+									   เงื่อนไขการหักภาษี ณ ที่จ่ายให้กรอกดังนี้
+                          <br/>
+										  หัก ณ ที่จ่าย กรอก
+                          <span font-weight="bold"> 1 </span>
+                          <br/>
+											ออกภาษีให้ กรอก
+                          <span font-weight="bold"> 2 </span>
+                          <br/>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td width="40%" border-left="1" border-right="1" border-bottom="1">
+                    <table width="100%" style="color:#237e6d;">
+                      <tr margin-top="30px">
+                        <td vertical-align="middle" width="25%">
+                          <p align="center" style="margin-top:20px; font-size:11px; margin-left : -30px">
+                            <b> ประทับตรา </b>
+                            <br/>
+                            <b>นิติบุคคล </b>
+                            <br/>
+                            <b> (ถ้ามี) </b>
+                          </p>
+                          <circle x="32%" y="30%" radius="30%" border="1" style="border-color: #237e6d; position:fixed;" />
+                        </td>
+                        <td width="10%" align="center">
+                          <p>
+        ลงชื่อ...................................................................................ผู้จ่ายเงิน
+                            <br/>
+        &nbsp;&nbsp; &nbsp;&nbsp;(...................................................................................)
+                            <br/>
+       ตำแหน่ง...............................................................................................
+                            <br/>
+        ยื่นวันที่...........เดือน...................................พ.ศ........................
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </body>
+          </pdf>

@@ -1,0 +1,169 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+  <head>
+    <link name="NotoSans" type="font" subtype="truetype" src="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93248&amp;c=TSTDRV925863&amp;h=3DEatPurHcIsp7hl-LTy6BIs37an1zJwXbiucByaiTvT7nfx&amp;_xt=.ttf" src-bold="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93248&amp;c=TSTDRV925863&amp;h=3DEatPurHcIsp7hl-LTy6BIs37an1zJwXbiucByaiTvT7nfx&amp;_xt=.ttf
+" src-italic="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93248&amp;c=TSTDRV925863&amp;h=3DEatPurHcIsp7hl-LTy6BIs37an1zJwXbiucByaiTvT7nfx&amp;_xt=.ttf" src-bolditalic="https://tstdrv925863.app.netsuite.com/core/media/media.nl?id=93248&amp;c=TSTDRV925863&amp;h=3DEatPurHcIsp7hl-LTy6BIs37an1zJwXbiucByaiTvT7nfx&amp;_xt=.ttf
+" bytes="2" />
+    <#if .locale == "zh_CN">
+      <link name="NotoSansCJKsc" type="font" subtype="opentype" src="{nsfont.NotoSansCJKsc_Regular}" src-bold="{nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+      <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="{nsfont.NotoSansCJKtc_Regular}" src-bold="{nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+          <link name="NotoSansCJKjp" type="font" subtype="opentype" src="{nsfont.NotoSansCJKjp_Regular}" src-bold="{nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+          <#elseif .locale == "ko_KR">
+            <link name="NotoSansCJKkr" type="font" subtype="opentype" src="{nsfont.NotoSansCJKkr_Regular}" src-bold="{nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+            <#elseif .locale == "th_TH">
+              <link name="NotoSansThai" type="font" subtype="opentype" src="{nsfont.NotoSansThai_Regular}" src-bold="{nsfont.NotoSansThai_Bold}" bytes="2" />
+            </#if>
+            <macrolist>
+              <macro id="nlheader">
+                <table class="header" style="width: 100%; font-size: 10pt;">
+
+                  <tr>
+                    <td>
+                      <span id="sub_heading_form"> ใบแนบ</span>
+                      <span id="heading_form"> P.N.D.53  </span>
+
+                    </td>
+                    <td>
+                      <span class="header_headings"> เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) </span>
+                      <span class="header_headings"> สาขาที่ </span>
+                    </td>
+
+
+                  </tr>
+
+                </table>
+              </macro>
+              <macro id="nlfooter">
+                <table class="footer">
+                  <tr>
+                    <td align="right">
+                      <pagenumber/>
+ of <totalpages/>
+                    </td>
+                  </tr>
+                </table>
+              </macro>
+            </macrolist>
+            <style type="text/css">* {
+              <#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+                <#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+                  <#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+                    <#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+                      <#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+                        <#else>
+			font-family: NotoSans, sans-serif;
+                        </#if>
+		}
+		
+       
+	
+        table.header td, table.header th {
+            padding: 0;
+            font-size: 10pt;
+            border: 0
+        }
+      
+      table.header td h1 {
+        display : inline
+      }
+      
+       .main_table, th, td{
+          border: 0.3px solid #206040;
+          border-collapse: collapse;
+          
+        }
+              
+        hr {
+            border-top: 1px dashed #d3d3d3;
+            width: 100%;
+            color: #ffffff;
+            background-color: #ffffff;
+            height: 1px;
+        }
+
+        #heading_form{
+          font-size : 50px
+        }
+
+        .header_headings{
+          font-size : 12px
+        }
+
+        #sub_heading_form{
+           font-size : 25px
+        }
+
+        body {
+            min-height: 1066px;
+            max-width: 00px;
+            margin: 0 auto;
+            color: #206040;
+        }
+
+                      </style>
+                    </head>
+                    <body header="nlheader" header-height="8%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+                      <table style="width: 100%;" height="80%" class="main_table">
+                        <tr height="2%">
+                          <td rowspan="2"> ลำ ดับ ที่</td>
+                          <td>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้</td>
+                          <td>สาขาที</td>
+                          <td>รายละเอียดเกี่ยวกับการจ่ายเงิน</td>
+                          <td>จำนวนเงินภาษี </td>
+                          <td>2</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr height="6%">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr height="30%">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr height="2%">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                        <tr height="12%">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+
+                      </table>
+
+                    </body>
+                  </pdf>
