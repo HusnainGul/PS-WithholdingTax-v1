@@ -26,7 +26,7 @@ define(['N/ui/serverWidget', 'N/search', 'N/record', 'N/task'],
                 response.writeLine({ output: 'Error: ' + e.name + ' , Details: ' + e.message });
             }
 
-        }
+        } 
 
         function getHandler(request, response, params, context) {
 
