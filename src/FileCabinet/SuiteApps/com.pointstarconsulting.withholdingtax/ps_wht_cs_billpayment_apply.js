@@ -24,56 +24,6 @@ define(['N/currentRecord', 'N/record'],
                 currentRec.setValue("entity", entityId)
             }
 
-            // if (entityId) { nlapiChangeCall({ entity: entityId }); }
-
-            //first option for reload
-
-            // if (searchParams.has("bill")) {
-
-            //     searchParams.delete("bill");
-
-
-            //     var updatedSearchString = searchParams.toString();
-
-
-            //     var updatedUrl = currentUrl.replace(window.location.search, "");
-
-
-            //     if (updatedSearchString) {
-            //         updatedUrl += "?currentBill=" + currentBillId + "&" + updatedSearchString;
-            //     }
-
-            //     log.debug("updatedUrl: ", updatedUrl);
-
-            //     window.location.href = updatedUrl;
-
-
-            // }
-
-            //second option for reload
-
-            // if (currentBillId) {
-            //     setWindowChanged(window, false);
-            //     window.onbeforeunload = null;
-            //     var href = document.location.href;
-            //     href = removeParamFromURL(href, 'inv');
-            //     href = removeParamFromURL(href, 'bill');
-            //     href = addParamToURL(href, 'custpage_id', currentBillId, true);
-            //     document.location = href;
-
-            // }
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
         function fieldChanged(context) {
@@ -112,7 +62,7 @@ define(['N/currentRecord', 'N/record'],
                             sublistId: 'apply',
                             fieldId: 'apply',
                             line: line
-                        }); 
+                        });
 
 
 
@@ -149,7 +99,6 @@ define(['N/currentRecord', 'N/record'],
                                     log.debug("in condition...")
 
                                     log.debug("Line no : ", line + 1)
-
 
                                     document.getElementById('amount' + (line + 1) + '_formattedValue').value = formatNumberWithCommas(billPaymentAmount)
 
@@ -205,47 +154,49 @@ define(['N/currentRecord', 'N/record'],
 
             for (var i = 0; i < lineItemCount; i++) {
 
-                // let partialAmnt = parseFloat(billRecord.getSublistValue({
-                //     sublistId: 'item',
-                //     fieldId: 'custcol_wht_partial_payment_amount',
-                //     line: i
-                // }));
-
-                // // log.debug("partialAmnt: ", partialAmnt);
-
-                // partialAmnt ? sum = sum + partialAmnt : 1
                 let whtTaxCode = parseFloat(billRecord.getSublistValue({
                     sublistId: 'item',
                     fieldId: 'custcol_ps_wht_tax_code',
                     line: i
                 }));
-                if (!whtTaxCode) {
-                    return total
+
+                if (whtTaxCode) {
+
+                    let baseAmount = parseFloat(billRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'custcol_ps_wht_base_amount',
+                        line: i
+                    }));
+
+
+                    baseAmount == '' ? baseAmount = 0 : true
+
+                    log.debug("baseAmount : ", baseAmount);
+
+                    billPaymentAmount = billPaymentAmount + baseAmount;
+
+
+                }
+                else {
+
+                    let amount = parseFloat(billRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'amount',
+                        line: i
+                    }));
+
+
+                    amount == '' ? amount = 0 : true
+
+                    log.debug("amount : ", amount);
+
+                    billPaymentAmount = billPaymentAmount + amount;
+
+
+
                 }
 
 
-
-                let taxAmount = parseFloat(billRecord.getSublistValue({
-                    sublistId: 'item',
-                    fieldId: 'custcol_ps_wht_tax_amount',
-                    line: i
-                }));
-
-
-                let baseAmount = parseFloat(billRecord.getSublistValue({
-                    sublistId: 'item',
-                    fieldId: 'custcol_ps_wht_base_amount',
-                    line: i
-                }));
-
-                // log.debug("taxAmount : ", taxAmount);
-                log.debug("baseAmount : ", baseAmount);
-
-                // let amount = baseAmount - taxAmount
-
-                // log.debug("amount : ", amount);
-
-                billPaymentAmount = billPaymentAmount + baseAmount;
 
 
             }

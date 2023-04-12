@@ -11,6 +11,7 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
         function calculateRemainingBillAmount(billId, lineNo, whtRate) {
 
+            log.debug("billId::", billId);
             if (billId && lineNo && whtRate) {
 
                 var vendorcreditSearchObj = search.create({
@@ -136,11 +137,11 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
             if (context.currentRecord.type == 'vendorbill') {
 
-
-                // if (context.mode = 'create') {
-                //     return;
-                // }
-
+                //Check1 : context.mode = edit
+                //Check2 : partialPayment checkbox
+                //Check4 : Make Copy pe context pe, Remaining amount empty krwani hai
+                //Check5 : Vendor field change pe log kr k dkhna h k pageinit hit horha h ya nh
+                //check10 : use pageinit remaining amount logic to following function click_partial_payment. Reason : second partial payment bnate waqt full payment wali lines ignor krdain.
 
                 let vendorBillRecord = context.currentRecord;
                 let vendorBillId = context.currentRecord.id;
@@ -150,6 +151,7 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                 });
 
                 log.debug("count: ", lineItemCount);
+                log.debug("vendorBillId: ", vendorBillId);
 
                 for (var i = 0; i < lineItemCount; i++) {
 
@@ -158,20 +160,15 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                         line: i
                     });
 
-
                     let partialAmount = vendorBillRecord.getCurrentSublistValue({
                         sublistId: 'item',
-                        fieldId: 'custcol_wht_partial_payment_amount',
-
+                        fieldId: 'custcol_wht_partial_payment_amount'
                     });
-
 
                     let lineAmount = vendorBillRecord.getCurrentSublistValue({
                         sublistId: 'item',
-                        fieldId: 'amount',
-
+                        fieldId: 'amount'
                     });
-
 
                     let taxCode = vendorBillRecord.getCurrentSublistValue({
                         sublistId: 'item',
@@ -186,28 +183,34 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
                     // if (partialAmount) {
 
-                    let taxRate = getTaxRate(taxCode)
+                    if (taxCode) {
 
-                    let processedAmount = calculateRemainingBillAmount(vendorBillId, i + 1, parseFloat(taxRate))
+                        let taxRate = getTaxRate(taxCode) //Check3 : remove this function
 
-                    let remainingAmount = lineAmount - processedAmount;
+                        let processedAmount = calculateRemainingBillAmount(vendorBillId, i + 1, parseFloat(taxRate))
 
-                    log.debug("remainingAmount: ", remainingAmount);
+                        let remainingAmount = lineAmount - processedAmount;
 
-                    remainingAmount <= 0 ? remainingAmount = 0 : true
+                        log.debug("remainingAmount: ", remainingAmount);
 
-                    //  currentRec.setCurrentSublistText({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', text: remainingAmount.toFixed(2) });
+                        remainingAmount <= 0 ? remainingAmount = 0 : remainingAmount
+
+                        //  currentRec.setCurrentSublistText({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', text: remainingAmount.toFixed(2) });
 
 
-                    vendorBillRecord.setCurrentSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'custcol_ps_wht_remaining_amount',
-                        value: remainingAmount.toFixed(2)
-                    });
+                        vendorBillRecord.setCurrentSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_ps_wht_remaining_amount',
+                            value: remainingAmount.toFixed(2)
+                        });
 
-                    vendorBillRecord.commitLine({
-                        sublistId: 'item'
-                    });
+                        vendorBillRecord.commitLine({
+                            sublistId: 'item'
+                        });
+                    }
+
+
+
                     // }
 
 
@@ -304,6 +307,8 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
             }
 
+            //check6 : open these comments
+
             // if (context.currentRecord.type == 'vendorbill' || context.currentRecord.type == 'check') {
 
             let currentRec = context.currentRecord;
@@ -322,6 +327,8 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                     console.log("check");
 
                     if (fieldId == 'custcol_ps_wht_tax_code') {
+
+                        //check8 : agr isPayment checked hai to hi uski fields ayain or sath me base or wht wali empty hojaen. remaininig bh hide 
 
                         let taxCode = currentRec.getCurrentSublistValue({
                             sublistId: sublistId,
@@ -342,12 +349,13 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
                         // log.debug("isPartialPayment: ", isPartialPayment);
 
-
                         if (taxCode) {
 
                             let taxRate = getTaxRate(taxCode)
 
                             if (isPartialPayment == "F") {
+
+                                //Check7 : use getValue instead of getText
 
                                 currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_rate', text: taxRate });
 
@@ -470,7 +478,7 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                     }
 
 
-                    if (fieldId = 'custcol_ps_wht_apply_partial_payments') {
+                    if (fieldId == 'custcol_ps_wht_apply_partial_payments') {
 
                         let partialAmount = currentRec.getCurrentSublistValue({
                             sublistId: sublistId,
@@ -637,9 +645,10 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
 
         return {
+            //check9 : validate line generating an error. tpartial payment amount becomes empty
 
             fieldChanged: fieldChanged,
-            validateLine: validateLine,
+            // validateLine: validateLine,
             pageInit: pageInit
         };
 

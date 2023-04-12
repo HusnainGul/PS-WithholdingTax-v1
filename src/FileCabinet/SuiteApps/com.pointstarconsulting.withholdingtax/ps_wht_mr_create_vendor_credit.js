@@ -174,8 +174,7 @@ define(['N/search', 'N/record'],
 
             }
 
-
-            let line = 0;
+            let lineNo = 0;
             for (const key in billLineNoObj) {
                 if (billLineNoObj.hasOwnProperty(key)) {
 
@@ -188,52 +187,53 @@ define(['N/search', 'N/record'],
                     log.debug("billLineNo: ", billLineNo)
                     log.debug("taxAmount: ", taxAmount)
 
+                    if (taxCode) {
 
-                    let itemToSet = getItemId(taxCode)
+                        let itemToSet = getItemId(taxCode)
 
-                    billCreditRecord.insertLine({
-                        sublistId: 'item',
-                        line: line,
-                    });
+                        billCreditRecord.insertLine({
+                            sublistId: 'item',
+                            line: lineNo,
+                        });
 
-                    billdata.location ? billCreditRecord.setSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'location',
-                        value: billdata.location,
-                        line: line
-                    }) : log.error("Error : Location not found on Bill Payment!")
+                        billdata.location ? billCreditRecord.setSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'location',
+                            value: billdata.location,
+                            line: lineNo
+                        }) : log.error("Error : Location not found on Bill Payment!")
 
-                    billCreditRecord.setSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'item',
-                        value: itemToSet,
-                        line: line
-                    })
+                        billCreditRecord.setSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'item',
+                            value: itemToSet,
+                            line: lineNo
+                        })
 
-                    billCreditRecord.setSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'custcol_ps_wht_bill_line_no',
-                        value: billLineNo,
-                        line: line
-                    })
+                        billCreditRecord.setSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_ps_wht_bill_line_no',
+                            value: billLineNo,
+                            line: lineNo
+                        })
 
 
-                    billCreditRecord.setSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'rate',
-                        value: taxAmount,
-                        line: line
-                    })
+                        billCreditRecord.setSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'rate',
+                            value: taxAmount,
+                            line: lineNo
+                        })
 
-                    billCreditRecord.setSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'amount',
-                        value: taxAmount,
-                        line: line
-                    })
+                        billCreditRecord.setSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'amount',
+                            value: taxAmount,
+                            line: lineNo
+                        })
 
-                    line++;
-
+                        lineNo++;
+                    }
                 }
             }
 

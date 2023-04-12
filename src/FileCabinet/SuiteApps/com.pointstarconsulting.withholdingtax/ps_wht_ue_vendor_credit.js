@@ -191,6 +191,8 @@ define(['N/record', 'N/search', 'N/task'],
 
                     var isPartialPayment = billRecord.getText('custbody_ps_wht_pay_partially')
 
+                    log.debug("billId: ", billId);
+
                     log.debug("isPartialPayment: ", isPartialPayment);
 
                     var lineItemCount = billRecord.getLineCount({
@@ -198,6 +200,12 @@ define(['N/record', 'N/search', 'N/task'],
                     });
 
                     for (var i = 0; i < lineItemCount; i++) {
+
+                        let amount = parseFloat(billRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'amount',
+                            line: i
+                        }));
 
                         if (isPartialPayment == "F") {
 
@@ -209,7 +217,9 @@ define(['N/record', 'N/search', 'N/task'],
 
                             log.debug("baseAmount : ", baseAmount);
 
-                            billPaymentAmount = billPaymentAmount + baseAmount;
+                            baseAmount ? (billPaymentAmount = billPaymentAmount + baseAmount)
+                                : (billPaymentAmount = billPaymentAmount + amount)
+
                         }
                         else {
                             let partialAmount = parseFloat(billRecord.getSublistValue({
@@ -227,9 +237,11 @@ define(['N/record', 'N/search', 'N/task'],
                             log.debug("partialAmount : ", partialAmount);
                             log.debug("taxAmount : ", taxAmount);
 
-                            let amount = partialAmount - taxAmount;
+                            let amountDifference = partialAmount - taxAmount;
 
-                            billPaymentAmount = billPaymentAmount + amount;
+                            partialAmount ? (billPaymentAmount = billPaymentAmount + amountDifference)
+                                : (billPaymentAmount = billPaymentAmount + amount)
+
                         }
 
 

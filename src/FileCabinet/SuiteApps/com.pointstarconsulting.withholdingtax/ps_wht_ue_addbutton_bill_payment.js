@@ -14,7 +14,7 @@ define(['N/record'],
 
             beforeLoad: function (context) {
 
-                if (context.newRecord.type == 'vendorpayment') {
+                if (context.newRecord.type == 'vendorpayment' && context.type === context.UserEventType.VIEW) {
 
                     let recordId = context.newRecord.id;
 
