@@ -154,15 +154,29 @@ define(['N/search', 'N/record'],
                     line: i
                 });
 
-                taxLinesObj[lineNo] = taxAmount;
+                if (!billLineNoObj[taxCode]) {
+                    billLineNoObj[taxCode] = lineNo;
+                }
 
-                billLineNoObj[lineNo] = taxCode;
+                //log.debug("taxLinesObj" + i, taxLinesObj);
 
+                if (taxLinesObj[taxCode]) {
+                    taxLinesObj[taxCode] += taxAmount;
+                } else {
+                    taxLinesObj[taxCode] = taxAmount;
+                }
             }
 
             log.debug("taxLinesObj final: ", taxLinesObj);
             log.debug("billLineNoObj final: ", billLineNoObj);
 
+
+
+            // let taxLines = Object.entries(taxLinesObj).map(([key, value]) => ({ [key]: value }));
+
+            // log.debug("taxLines: ", taxLines);
+
+            //deleting all the current lines that are transformed from the bill
 
             for (var i = totalLines - 1; i >= 0; i--) {
 
@@ -175,21 +189,22 @@ define(['N/search', 'N/record'],
             }
 
 
+            // Adding new Tax Line Items in Bill Credit
+            // log.debug("taxLines.length: ", taxLines.length);
+
             let line = 0;
-            for (const key in billLineNoObj) {
-                if (billLineNoObj.hasOwnProperty(key)) {
+            for (const key in taxLinesObj) {
+                if (taxLinesObj.hasOwnProperty(key)) {
 
-                    const taxCode = billLineNoObj[key];
-                    const billLineNo = key;
-                    const taxAmount = taxLinesObj[key];
-                    // const billLineNo = billLineNoObj[key];
+                    const value = taxLinesObj[key];
+                    const billLineNo = billLineNoObj[key];
 
-                    log.debug("taxCode: ", taxCode)
-                    log.debug("billLineNo: ", billLineNo)
-                    log.debug("taxAmount: ", taxAmount)
+                    log.debug("line: ", line)
+
+                    log.debug(`Key: ${key}, Value: ${value}`);
 
 
-                    let itemToSet = getItemId(taxCode)
+                    let itemToSet = getItemId(key)
 
                     billCreditRecord.insertLine({
                         sublistId: 'item',
@@ -221,14 +236,14 @@ define(['N/search', 'N/record'],
                     billCreditRecord.setSublistValue({
                         sublistId: 'item',
                         fieldId: 'rate',
-                        value: taxAmount,
+                        value: value,
                         line: line
                     })
 
                     billCreditRecord.setSublistValue({
                         sublistId: 'item',
                         fieldId: 'amount',
-                        value: taxAmount,
+                        value: value,
                         line: line
                     })
 
@@ -340,7 +355,6 @@ define(['N/search', 'N/record'],
 
             log.debug("getRecordsToProcess: ", billRecords)
             log.debug("No of Records To Process: ", billRecords.length)
-
             return billRecords;
         }
 

@@ -30,11 +30,18 @@ define(['N/record'],
 
                 if (context.newRecord.type == 'vendorbill') {
 
+
                     if (context.type === context.UserEventType.VIEW) {
 
                         let recordId = context.newRecord.id;
                         let vendorBillRecord = context.newRecord;
 
+
+                        let billStatus = vendorBillRecord.getText('statusRef')
+
+
+
+                        log.debug("status:", billStatus);
                         var lineItemCount = vendorBillRecord.getLineCount({
                             sublistId: 'item'
                         });
@@ -79,7 +86,39 @@ define(['N/record'],
                         }
 
 
+                        if (billStatus == 'paidInFull') {
+                            context.form.removeButton('custpage_btn_partial_payment');
+                        }
+
+
                     }
+
+                    // else if (context.type === context.UserEventType.EDIT) {
+
+                    //     let vendorBillRecord = context.newRecord;
+
+                    //     var lineItemCount = vendorBillRecord.getLineCount({
+                    //         sublistId: 'item'
+                    //     });
+
+                    //     log.debug('Before submit Edit : linecount', lineItemCount);
+
+
+                    //     for (var i = 0; i < lineItemCount; i++) {
+
+                    //         log.debug(i)
+                    //         vendorBillRecord.setSublistValue({
+                    //             sublistId: 'item',
+                    //             fieldId: 'custcol_ps_wht_remaining_amount',
+                    //             line: i,
+                    //             value: 123
+                    //         });
+
+                    //     }
+
+                    // }
+
+
                 }
 
 

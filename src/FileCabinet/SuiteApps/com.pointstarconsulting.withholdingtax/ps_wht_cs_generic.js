@@ -9,6 +9,79 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
     function (nsCurrentRec, nsRecord, dialog, search) {
 
 
+        function calculateRemainingBillAmount(billId, lineNo, whtRate) {
+
+            if (billId && lineNo && whtRate) {
+
+                var vendorcreditSearchObj = search.create({
+                    type: "vendorcredit",
+                    filters:
+                        [
+                            ["type", "anyof", "VendCred"],
+                            "AND",
+                            ["createdfrom.internalid", "anyof", billId]
+                        ],
+                    columns:
+                        [
+                            "type",
+                            "tranid",
+                            "amount",
+                            "custcol_ps_wht_bill_line_no"
+                        ]
+                });
+
+                var results = vendorcreditSearchObj.run().getRange({ start: 0, end: 1000 });
+
+                let billCreditAmount = 0;
+                let billPaymentAmount = 0;
+
+                log.debug("Results : ", results);
+                log.debug("Results lenght : ", results.length);
+
+                for (var i = 0; i < results.length; i++) {
+                    let billLineNo = results[i].getValue({ name: 'custcol_ps_wht_bill_line_no' });
+
+                    if (billLineNo == lineNo) {
+
+                        let amount = parseFloat(results[i].getValue({ name: 'amount' }));
+
+                        log.debug("amount" + i, amount);
+
+                        billCreditAmount = billCreditAmount + amount
+
+                        log.debug("billCreditAmount" + i, billCreditAmount);
+
+                        let paymentAmount = amount / (whtRate / 100);
+
+                        log.debug("paymentAmount" + i, paymentAmount);
+
+                        billPaymentAmount = billPaymentAmount + paymentAmount
+
+                        log.debug("billPaymentAmount" + i, billPaymentAmount);
+
+                    }
+
+                }
+
+                log.debug("billCreditAmount : ", billCreditAmount);
+                log.debug("billPaymentAmount : ", billPaymentAmount);
+
+                // let totalAmount = billCreditAmount + billPaymentAmount;
+                let totalAmount = billPaymentAmount;
+
+                return totalAmount
+
+            }
+
+            else {
+                return 0
+            }
+
+
+
+
+        }
+
         function getCountryId(countryName) {
 
             var customrecord_wht_countrySearchObj = search.create({
@@ -54,6 +127,90 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                 if (countryFld != countryId) {
                     certificateSectionFld.isDisplay = false;
                     incomeTypeField.isDisplay = false;
+
+                }
+
+
+            }
+
+
+            if (context.currentRecord.type == 'vendorbill') {
+
+
+                // if (context.mode = 'create') {
+                //     return;
+                // }
+
+
+                let vendorBillRecord = context.currentRecord;
+                let vendorBillId = context.currentRecord.id;
+
+                var lineItemCount = vendorBillRecord.getLineCount({
+                    sublistId: 'item'
+                });
+
+                log.debug("count: ", lineItemCount);
+
+                for (var i = 0; i < lineItemCount; i++) {
+
+                    vendorBillRecord.selectLine({
+                        sublistId: 'item',
+                        line: i
+                    });
+
+
+                    let partialAmount = vendorBillRecord.getCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'custcol_wht_partial_payment_amount',
+
+                    });
+
+
+                    let lineAmount = vendorBillRecord.getCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'amount',
+
+                    });
+
+
+                    let taxCode = vendorBillRecord.getCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'custcol_ps_wht_tax_code',
+
+                    });
+
+                    log.debug("partialAmount: ", partialAmount);
+                    log.debug("lineAmount: ", lineAmount);
+                    log.debug("taxCode: ", taxCode);
+
+
+                    // if (partialAmount) {
+
+                    let taxRate = getTaxRate(taxCode)
+
+                    let processedAmount = calculateRemainingBillAmount(vendorBillId, i + 1, parseFloat(taxRate))
+
+                    let remainingAmount = lineAmount - processedAmount;
+
+                    log.debug("remainingAmount: ", remainingAmount);
+
+                    remainingAmount <= 0 ? remainingAmount = 0 : true
+
+                    //  currentRec.setCurrentSublistText({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', text: remainingAmount.toFixed(2) });
+
+
+                    vendorBillRecord.setCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'custcol_ps_wht_remaining_amount',
+                        value: remainingAmount.toFixed(2)
+                    });
+
+                    vendorBillRecord.commitLine({
+                        sublistId: 'item'
+                    });
+                    // }
+
+
 
                 }
 
@@ -150,8 +307,10 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
             // if (context.currentRecord.type == 'vendorbill' || context.currentRecord.type == 'check') {
 
             let currentRec = context.currentRecord;
+            let currentRecId = context.currentRecord.id;
             let sublistId = context.sublistId;
             let fieldId = context.fieldId;
+            var currentLine = context.line;
 
             // log.debug("fieldId: ", fieldId);
             // log.debug("sublistId: ", sublistId);
@@ -159,6 +318,8 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
             try {
                 if (sublistId == 'item' || sublistId == 'expense') {
+
+                    console.log("check");
 
                     if (fieldId == 'custcol_ps_wht_tax_code') {
 
@@ -233,35 +394,163 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
                     }
 
+                    if (fieldId == 'custcol_wht_partial_payment_amount') {
+
+                        log.debug("partial payment amount changed!");
+                        console.log("partial payment amount changed!");
+
+                        let partialAmount = currentRec.getCurrentSublistValue({
+                            sublistId: sublistId,
+                            fieldId: 'custcol_wht_partial_payment_amount',
+
+                        });
+
+                        let lineAmount = currentRec.getCurrentSublistValue({
+                            sublistId: sublistId,
+                            fieldId: 'amount',
+
+                        });
+
+                        log.debug("partialAmount: ", partialAmount);
+                        console.log("partialAmount: ", partialAmount);
+
+
+
+                        if (partialAmount) {
+
+                            let taxCode = currentRec.getCurrentSublistValue({
+                                sublistId: sublistId,
+                                fieldId: 'custcol_ps_wht_tax_code',
+
+                            });
+
+                            log.debug("taxCode: ", taxCode);
+                            console.log("taxCode: ", taxCode);
+
+                            let taxRate = getTaxRate(taxCode)
+
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_apply_partial_payments', text: "T" })
+
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_rate', text: taxRate });
+
+                            let taxAmount = (parseFloat(taxRate) / 100) * partialAmount;
+
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_partial_wht_amount', text: taxAmount });
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_base_amount', text: '' });
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_amount', text: '' });
+
+                            log.debug("taxAmount : ", taxAmount)
+
+                            log.debug("rate : ", parseFloat(taxRate))
+
+                            log.debug("lineAmount : ", lineAmount)
+
+                            // let processedAmount = calculateRemainingBillAmount(currentRecId, currentLine + 1, parseFloat(taxRate))
+
+                            // let remainingAmount = lineAmount - processedAmount;
+
+                            // log.debug("remainingAmount: ", remainingAmount);
+                            // remainingAmount <= 0 ? remainingAmount = 0 : true
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_remaining_amount', text: remainingAmount.toFixed(2) });
+
+                            // log.debug("currentLine", currentLine);
+                            // log.debug("currentRecId", currentRecId);
+
+
+
+
+                        }
+                        else {
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_apply_partial_payments', text: "F" })
+
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_partial_wht_amount', text: "" })
+
+                        }
+
+                    }
+
+
                     if (fieldId = 'custcol_ps_wht_apply_partial_payments') {
 
-                        let isPartialPayment = currentRec.getCurrentSublistValue({
+                        let partialAmount = currentRec.getCurrentSublistValue({
                             sublistId: sublistId,
                             fieldId: 'custcol_ps_wht_apply_partial_payments',
 
                         });
 
-                        log.debug("isPartialPayment: ", isPartialPayment);
+                        log.debug("partialAmount: ", partialAmount);
 
-                        if (isPartialPayment == true) {
+                        let taxCode = currentRec.getCurrentSublistValue({
+                            sublistId: sublistId,
+                            fieldId: 'custcol_ps_wht_tax_code',
 
-                            let partialAmountFld = currentRec.getField({ fieldId: 'custcol_wht_partial_payment_amount' });
-                            let taxCodeFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_code' });
-                            let taxRateFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_rate' });
-                            let baseAmountFld = currentRec.getField({ fieldId: 'custcol_ps_wht_base_amount' });
-                            let taxAmountFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_amount' });
+                        });
 
-                            log.debug("partialAmountFld", partialAmountFld)
-                            log.debug("taxCodeFld", taxCodeFld)
-                            log.debug("taxRateFld", taxRateFld)
-                            log.debug("baseAmountFld", baseAmountFld)
-                            log.debug("taxAmountFld", taxAmountFld)
+                        log.debug("taxCode: ", taxCode);
 
-                            partialAmountFld.isMandatory = true;
-                            taxCodeFld.isMandatory = true;
-                            taxRateFld.isMandatory = true;
-                            baseAmountFld.isMandatory = true;
-                            taxAmountFld.isMandatory = true;
+                        let taxRate = getTaxRate(taxCode)
+
+                        if (partialAmount == false) {
+
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_code', text: '' })
+
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_apply_partial_payments', text: "T" })
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_rate', text: taxRate });
+
+                            // let taxAmount = (parseFloat(taxRate) / 100) * partialAmount;
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_partial_wht_amount', text: taxAmount });
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_base_amount', text: '' });
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_amount', text: '' });
+
+                            // log.debug("taxAmount : ", taxAmount)
+
+                            // log.debug("rate : ", parseFloat(taxRate))
+
+
+
+                            // let partialAmountFld = currentRec.getField({ fieldId: 'custcol_wht_partial_payment_amount' });
+                            // let taxCodeFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_code' });
+                            // let taxRateFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_rate' });
+                            // let baseAmountFld = currentRec.getField({ fieldId: 'custcol_ps_wht_base_amount' });
+                            // let taxAmountFld = currentRec.getField({ fieldId: 'custcol_ps_wht_tax_amount' });
+
+                            // log.debug("partialAmountFld", partialAmountFld)
+                            // log.debug("taxCodeFld", taxCodeFld)
+                            // log.debug("taxRateFld", taxRateFld)
+                            // log.debug("baseAmountFld", baseAmountFld)
+                            // log.debug("taxAmountFld", taxAmountFld)
+
+                            // partialAmountFld.isMandatory = true;
+                            // taxCodeFld.isMandatory = true;
+                            // taxRateFld.isMandatory = true;
+                            // baseAmountFld.isMandatory = true;
+                            // taxAmountFld.isMandatory = true;
+
+                        }
+                        else {
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_rate', text: taxRate });
+
+                            // let actualAmount = currentRec.getCurrentSublistValue({
+                            //     sublistId: sublistId,
+                            //     fieldId: 'amount',
+
+                            // });
+
+                            // let taxAmount = (parseFloat(taxRate) / 100) * actualAmount;
+
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_base_amount', text: actualAmount - taxAmount });
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_amount', text: taxAmount });
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_partial_wht_amount', text: '' });
+                            // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_wht_partial_payment_amount', text: '' });
+
+                            // log.debug("taxAmount : ", taxAmount)
+
+                            // log.debug("rate : ", parseFloat(taxRate))
 
                         }
 
@@ -270,6 +559,8 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
 
                     }
+
+
 
                 }
 
@@ -300,9 +591,13 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
                     let partialAmount = currentRecord.getCurrentSublistValue({ sublistId: sublistName, fieldId: 'custcol_wht_partial_payment_amount' });
 
+                    let remainingAmount = currentRecord.getCurrentSublistValue({ sublistId: sublistName, fieldId: 'custcol_ps_wht_remaining_amount' });
 
-                    log.debug("amount", amount)
-                    log.debug("partialAmount", partialAmount)
+
+                    log.debug("validate : amount", amount)
+                    log.debug("validate : partialAmount", partialAmount)
+
+                    log.debug("validate : remainingAmount", remainingAmount)
 
                     if (partialAmount > amount) {
 
@@ -316,9 +611,22 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                         return false;
 
                     }
+                    else if (partialAmount > remainingAmount) {
+
+                        remainingAmount != '' || remainingAmount != 0 ? dialog.alert({
+                            title: 'Warning', message: 'Please select the amount within available range!'
+                        }) : true
+
+                        currentRecord.setCurrentSublistValue({ sublistId: sublistName, fieldId: 'custcol_wht_partial_payment_amount', value: '' });
+
+                        return false;
+
+                    }
                     else {
                         return true;
                     }
+
+
 
                 }
             }
