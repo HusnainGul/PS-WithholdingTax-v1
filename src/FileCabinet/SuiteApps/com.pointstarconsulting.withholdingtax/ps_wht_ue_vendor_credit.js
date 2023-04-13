@@ -142,9 +142,6 @@ define(['N/record', 'N/search', 'N/task'],
                     log.debug('Before submit : linecount', lineItemCount);
 
 
-
-
-
                     for (var i = 0; i < lineItemCount; i++) {
 
                         let isChecked = vendorPaymentRecord.getSublistValue({
@@ -163,7 +160,7 @@ define(['N/record', 'N/search', 'N/task'],
 
                             let billPaymentAmount = getBillPaymenAmount(currentBillId);
 
-                            log.debug('billPaymentAmount', billPaymentAmount);
+                            log.debug('billPaymentAmount Final', billPaymentAmount);
 
                             vendorPaymentRecord.setSublistValue({
                                 sublistId: 'apply',
@@ -189,7 +186,8 @@ define(['N/record', 'N/search', 'N/task'],
                         isDynamic: true
                     });
 
-                    var isPartialPayment = billRecord.getText('custbody_ps_wht_pay_partially')
+                    // var isPartialPayment = billRecord.getText('custbody_ps_wht_pay_partially')
+                    var isPartialPayment = billRecord.getValue('custbody_ps_wht_pay_partially')
 
                     log.debug("billId: ", billId);
 
@@ -207,7 +205,7 @@ define(['N/record', 'N/search', 'N/task'],
                             line: i
                         }));
 
-                        if (isPartialPayment == "F") {
+                        if (isPartialPayment == false) {
 
                             let baseAmount = parseFloat(billRecord.getSublistValue({
                                 sublistId: 'item',
@@ -221,7 +219,9 @@ define(['N/record', 'N/search', 'N/task'],
                                 : (billPaymentAmount = billPaymentAmount + amount)
 
                         }
-                        else {
+
+                        else if (isPartialPayment == true) {
+
                             let partialAmount = parseFloat(billRecord.getSublistValue({
                                 sublistId: 'item',
                                 fieldId: 'custcol_wht_partial_payment_amount',
@@ -234,13 +234,33 @@ define(['N/record', 'N/search', 'N/task'],
                                 line: i
                             }));
 
+                            let remainingAmount = billRecord.getSublistValue({
+                                sublistId: 'item',
+                                fieldId: 'custcol_ps_wht_remaining_amount',
+                                line: i
+                            });
+
+
                             log.debug("partialAmount : ", partialAmount);
                             log.debug("taxAmount : ", taxAmount);
+                            log.debug("amount : ", amount);
 
                             let amountDifference = partialAmount - taxAmount;
 
-                            partialAmount ? (billPaymentAmount = billPaymentAmount + amountDifference)
-                                : (billPaymentAmount = billPaymentAmount + amount)
+                            log.debug("amountDifference : ", amountDifference);
+
+                            if (partialAmount) {
+                                billPaymentAmount = billPaymentAmount + amountDifference
+                            }
+                            else {
+                                remainingAmount > 0 ?
+                                    (billPaymentAmount = billPaymentAmount + amount) : billPaymentAmount
+                            }
+
+                            // partialAmount ? (billPaymentAmount = billPaymentAmount + amountDifference)
+                            //     : (billPaymentAmount = billPaymentAmount + amount)
+
+                            log.debug("billPaymentAmount : ", billPaymentAmount);
 
                         }
 
@@ -256,8 +276,6 @@ define(['N/record', 'N/search', 'N/task'],
                 }
 
             }
-
-
 
         }
 

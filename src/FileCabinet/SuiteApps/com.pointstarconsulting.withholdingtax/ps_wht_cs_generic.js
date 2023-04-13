@@ -9,9 +9,40 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
     function (nsCurrentRec, nsRecord, dialog, search) {
 
 
+        function checkRelatedBillCredits(billId) {
+            let noOfBillCredits;
+            if (billId) {
+                var vendorcreditSearchObj = search.create({
+                    type: "vendorcredit",
+                    filters:
+                        [
+                            ["type", "anyof", "VendCred"],
+                            "AND",
+                            ["createdfrom.internalid", "anyof", billId]
+                        ],
+                    columns:
+                        [
+                            "tranid"
+                        ]
+                });
+
+                var results = vendorcreditSearchObj.run().getRange({ start: 0, end: 1000 });
+
+                (results.length > 0) ? noOfBillCredits = results.length : noOfBillCredits = 0;
+
+            }
+
+            log.debug("noOfBillCredits: ", noOfBillCredits);
+
+            return noOfBillCredits
+
+        }
+
+
         function calculateRemainingBillAmount(billId, lineNo, whtRate) {
 
             log.debug("billId::", billId);
+
             if (billId && lineNo && whtRate) {
 
                 var vendorcreditSearchObj = search.create({
@@ -145,6 +176,7 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
 
                 let vendorBillRecord = context.currentRecord;
                 let vendorBillId = context.currentRecord.id;
+                let noOfBillCredits = checkRelatedBillCredits(vendorBillId)
 
                 var lineItemCount = vendorBillRecord.getLineCount({
                     sublistId: 'item'
@@ -203,6 +235,25 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                             fieldId: 'custcol_ps_wht_remaining_amount',
                             value: remainingAmount.toFixed(2)
                         });
+
+                        vendorBillRecord.commitLine({
+                            sublistId: 'item'
+                        });
+                    }
+                    else {
+
+                        noOfBillCredits > 0 ?
+                            (vendorBillRecord.setCurrentSublistValue({
+                                sublistId: 'item',
+                                fieldId: 'custcol_ps_wht_remaining_amount',
+                                value: 0
+                            })) :
+                            (vendorBillRecord.setCurrentSublistValue({
+                                sublistId: 'item',
+                                fieldId: 'custcol_ps_wht_remaining_amount',
+                                value: lineAmount.toFixed(2)
+                            }))
+
 
                         vendorBillRecord.commitLine({
                             sublistId: 'item'
@@ -399,6 +450,14 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                             }
 
                         }
+                        else {
+
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_base_amount', text: '' });
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_amount', text: '' });
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_partial_wht_amount', text: '' });
+                            currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_wht_partial_payment_amount', text: '' });
+                            currentRec.setCurrentSublistValue({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_rate', value: '' });
+                        }
 
                     }
 
@@ -499,7 +558,6 @@ define(['N/currentRecord', 'N/record', 'N/ui/dialog', 'N/search'],
                         let taxRate = getTaxRate(taxCode)
 
                         if (partialAmount == false) {
-
 
                             // currentRec.setCurrentSublistText({ sublistId: sublistId, fieldId: 'custcol_ps_wht_tax_code', text: '' })
 

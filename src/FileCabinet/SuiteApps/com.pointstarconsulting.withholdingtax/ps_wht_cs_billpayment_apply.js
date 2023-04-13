@@ -82,6 +82,7 @@ define(['N/currentRecord', 'N/record'],
                                 line: line
                             });
                             console.log("type", type)
+
                             if (type == "VendBill") {
 
 
@@ -154,11 +155,11 @@ define(['N/currentRecord', 'N/record'],
 
             for (var i = 0; i < lineItemCount; i++) {
 
-                let whtTaxCode = parseFloat(billRecord.getSublistValue({
+                let whtTaxCode = billRecord.getSublistValue({
                     sublistId: 'item',
                     fieldId: 'custcol_ps_wht_tax_code',
                     line: i
-                }));
+                });
 
                 if (whtTaxCode) {
 
