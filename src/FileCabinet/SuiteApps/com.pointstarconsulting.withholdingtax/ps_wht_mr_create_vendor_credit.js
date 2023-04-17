@@ -3,8 +3,8 @@
  * @NScriptType MapReduceScript
  */
 
-define(['N/search', 'N/record'],
-    function (search, record) {
+define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', 'N/runtime', './lib/helper_lib.js'],
+    function (search, record, config, moment, format, runtime, helper) {
 
 
         function isPartialPayment(billId) {
@@ -94,7 +94,40 @@ define(['N/search', 'N/record'],
 
         }
 
+        function clearPartialPaymentField(billdata) {
 
+            let billId = billdata.internalId;
+
+            var billRecord = record.load({
+                type: record.Type.VENDOR_BILL,
+                id: billId,
+                isDynamic: true
+            });
+
+            var lineItemCount = billRecord.getLineCount({
+                sublistId: 'item'
+            });
+
+            for (var i = 0; i < lineItemCount; i++) {
+
+                billRecord.selectLine({
+                    sublistId: 'item',
+                    line: i
+                });
+
+                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_partial_wht_amount', value: '' });
+                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_wht_partial_payment_amount', value: '' });
+                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_apply_partial_payments', value: false });
+
+                billRecord.commitLine({
+                    sublistId: 'item'
+                });
+
+            }
+
+            billRecord.save({ enableSourcing: false, ignoreMandatoryFields: true });
+
+        }
 
         function transformVendorBillToCredit(billdata) {
 
@@ -114,9 +147,14 @@ define(['N/search', 'N/record'],
             });
 
 
+
+
+            let billDate = helper.formatDate(helper.parseDate(billdata.date))
+            log.debug("billDate: ", billDate);
+
             billdata.date ? billCreditRecord.setText({
                 fieldId: 'trandate',
-                text: billdata.date
+                text: billDate
             }) : log.error("Error : Trandate not found on Bill Payment!")
 
 
@@ -133,6 +171,8 @@ define(['N/search', 'N/record'],
                         fieldId: 'custcol_ps_wht_tax_amount',
                         line: i
                     }));
+
+                    log.debug("partialPayment == F");
                 }
                 else {
                     taxAmount = parseFloat(billCreditRecord.getSublistValue({
@@ -140,6 +180,7 @@ define(['N/search', 'N/record'],
                         fieldId: 'custcol_ps_wht_partial_wht_amount',
                         line: i
                     }));
+                    log.debug("partialPayment == T");
                 }
 
                 let taxCode = billCreditRecord.getSublistText({
@@ -154,9 +195,14 @@ define(['N/search', 'N/record'],
                     line: i
                 });
 
-                taxLinesObj[lineNo] = taxAmount;
+                log.debug("taxAmount" + i, taxAmount);
 
-                billLineNoObj[lineNo] = taxCode;
+                if (taxAmount > 0) {
+                    taxLinesObj[lineNo] = taxAmount;
+
+                    billLineNoObj[lineNo] = taxCode;
+                }
+
 
             }
 
@@ -183,9 +229,9 @@ define(['N/search', 'N/record'],
                     const taxAmount = taxLinesObj[key];
                     // const billLineNo = billLineNoObj[key];
 
-                    log.debug("taxCode: ", taxCode)
-                    log.debug("billLineNo: ", billLineNo)
-                    log.debug("taxAmount: ", taxAmount)
+                    // log.debug("taxCode: ", taxCode)
+                    // log.debug("billLineNo: ", billLineNo)
+                    // log.debug("taxAmount: ", taxAmount)
 
                     if (taxCode) {
 
@@ -232,6 +278,8 @@ define(['N/search', 'N/record'],
                             line: lineNo
                         })
 
+                        log.debug("Credit Amnt" + lineNo, taxAmount);
+
                         lineNo++;
                     }
                 }
@@ -250,8 +298,8 @@ define(['N/search', 'N/record'],
                     line: i
                 });
 
-                log.debug("doc: ", doc);
-                log.debug("billdata.internalId: ", billdata.internalId);
+                // log.debug("doc: ", doc);
+                // log.debug("billdata.internalId: ", billdata.internalId);
 
                 if (doc == billdata.internalId) {
 
@@ -350,7 +398,11 @@ define(['N/search', 'N/record'],
 
                 var searchResult = JSON.parse(context.value);
 
+                log.debug("searchResult: ", searchResult);
+
                 let billCreditId = transformVendorBillToCredit(searchResult);
+
+                clearPartialPaymentField(searchResult)
 
                 updateQueueStatus(billCreditId, searchResult.queueId)
 
@@ -377,13 +429,13 @@ define(['N/search', 'N/record'],
 
 
         function reduce(context) {
-            log.debug('reduce key : ', context.key);
-            log.debug('reduce value: ', context.values);
+            // log.debug('reduce key : ', context.key);
+            // log.debug('reduce value: ', context.values);
 
-            context.write({
-                key: context.key,
-                value: context.values
-            });
+            // context.write({
+            //     key: context.key,
+            //     value: context.values
+            // });
 
         }
 
@@ -401,7 +453,7 @@ define(['N/search', 'N/record'],
         return {
             getInputData: getInputData,
             map: map,
-            reduce: reduce,
+            // reduce: reduce,
             summarize: summarize
         }
     }
