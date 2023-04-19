@@ -22,7 +22,7 @@ const taxAmountItemField = 'custcol_ps_wht_tax_amount';
 
 
 define(['N/currentRecord', 'N/record', './lib/helper_lib'],
-    function (nsCurrentRec, nsRecord, helper_lib) {
+    function (nsCurrentRec, record, helper_lib) {
 
 
         function pageInit(context) {
@@ -99,7 +99,7 @@ define(['N/currentRecord', 'N/record', './lib/helper_lib'],
                                 log.debug("billNo: ", billNo);
 
 
-                                let billPaymentAmount = getBillPaymenAmount(billNo);
+                                let billPaymentAmount = getBillPaymentAmount(billNo);
 
                                 console.log(billPaymentAmount)
 
@@ -131,74 +131,60 @@ define(['N/currentRecord', 'N/record', './lib/helper_lib'],
 
         }
 
-
-        function getBillPaymenAmount(billId) {
+        function getBillPaymentAmount(billId) {
 
             let billPaymentAmount = 0;
 
-            var billRecord = nsRecord.load({
-                type: nsRecord.Type.VENDOR_BILL,
+            var billRecord = record.load({
+                type: record.Type.VENDOR_BILL,
                 id: billId,
                 isDynamic: true
             });
 
-            var total = billRecord.getValue({ fieldId: 'total' });
+            log.debug("billId: ", billId);
 
             var lineItemCount = billRecord.getLineCount({
-                sublistId: itemSublistId
+                sublistId: 'item'
             });
-
 
             for (var i = 0; i < lineItemCount; i++) {
 
                 let amount = parseFloat(billRecord.getSublistValue({
-                    sublistId: itemSublistId,
-                    fieldId: amountItemField,
+                    sublistId: 'item',
+                    fieldId: 'amount',
                     line: i
                 }));
 
                 let taxCode = billRecord.getSublistValue({
-                    sublistId: itemSublistId,
+                    sublistId: 'item',
                     fieldId: 'custcol_ps_wht_tax_code',
                     line: i
                 });
+
                 let isPartialPayment = billRecord.getSublistValue({
-                    sublistId: itemSublistId,
-                    fieldId: isPartialPaymentItemField,
+                    sublistId: 'item',
+                    fieldId: 'custcol_ps_wht_apply_partial_payments',
                     line: i
                 });
 
-                if (!!taxCode) {
-                    let currentRemainingAmount = parseFloat(billRecord.getSublistValue({
-                        sublistId: itemSublistId,
-                        fieldId: remainingAmountItemField,
-                        line: i
-                    }));
+                let currentRemainingAmount = billRecord.getSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_ps_wht_remaining_amount',
+                    line: i
+                })
 
-                    let baseAmount = parseFloat(billRecord.getSublistValue({
-                        sublistId: itemSublistId,
-                        fieldId: 'custcol_ps_wht_base_amount',
-                        line: i
-                    }));
-
-                    if (!!isPartialPayment) {
-                        billPaymentAmount += getPartialAmount(billRecord, i, itemSublistId, amount, currentRemainingAmount)
-                    }
-                    else {
-                        billPaymentAmount += getBaseAmount(billRecord, i, itemSublistId, amount, currentRemainingAmount)
-                    }
+                log.audit("261 currentRemainingAmount", currentRemainingAmount);
 
 
-
-                    // baseAmount == '' ? baseAmount = 0 : true
-
-                    // log.debug("baseAmount : ", baseAmount);
-
-                    // billPaymentAmount = billPaymentAmount + baseAmount;
-
-
+                if (currentRemainingAmount) {
+                    let value = currentRemainingAmount.toString().replace(/,/g, "")
+                    currentRemainingAmount = parseFloat(value)
                 }
-                else {
+
+                log.audit("273 currentRemainingAmount", currentRemainingAmount);
+
+                if (!!taxCode) {
+
 
                     if (!!isPartialPayment) {
 
@@ -208,87 +194,155 @@ define(['N/currentRecord', 'N/record', './lib/helper_lib'],
                             line: i
                         }));
 
-                        partialAmount == '' ? partialAmount = 0 : true
-
-                        billPaymentAmount += partialAmount
-
-                    }
-
-                    else {
-
-                        let amount = parseFloat(billRecord.getSublistValue({
-                            sublistId: itemSublistId,
-                            fieldId: 'amount',
+                        let partialTaxAmount = parseFloat(billRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_ps_wht_partial_wht_amount',
                             line: i
                         }));
 
-                        amount == '' ? amount = 0 : true
-
+                        log.debug("partialAmount : ", partialAmount);
+                        log.debug("partialTaxAmount : ", partialTaxAmount);
                         log.debug("amount : ", amount);
 
-                        billPaymentAmount = billPaymentAmount + amount;
+                        let amountDifference = partialAmount - partialTaxAmount;
+
+                        log.debug("amountDifference : ", amountDifference);
+
+                        // (currentRemainingAmount > 0) || (currentRemainingAmount == '') ? (billPaymentAmount = billPaymentAmount + amountDifference) : billPaymentAmount
+
+                        log.audit('currentRemainingAmount', currentRemainingAmount)
+
+
+                        if (currentRemainingAmount > 0) {
+
+                            billPaymentAmount += amountDifference
+                            log.audit('currentRemainingAmount > 0', billPaymentAmount)
+                        }
+
+                        if (currentRemainingAmount === 0) {
+
+                            billPaymentAmount = billPaymentAmount
+                            log.audit('currentRemainingAmount === 0', billPaymentAmount)
+
+                        }
+
+                        if (currentRemainingAmount === '') {
+
+                            billPaymentAmount += amountDifference
+                            log.audit('currentRemainingAmount ==="" ', billPaymentAmount)
+
+                        }
+
+
+                        log.debug("billPaymentAmount : ", billPaymentAmount);
+
+                    }
+                    else {
+
+                        let baseAmount = parseFloat(billRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_ps_wht_base_amount',
+                            line: i
+                        }));
+
+                        log.debug("baseAmount : ", baseAmount);
+
+                        let taxAmount = parseFloat(billRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_ps_wht_tax_amount',
+                            line: i
+                        }));
+
+
+                        if (currentRemainingAmount > 0) {
+
+                            billPaymentAmount += baseAmount
+
+                            log.audit('currentRemainingAmount > 0', billPaymentAmount)
+                        }
+
+                        if (currentRemainingAmount === 0) {
+
+                            billPaymentAmount = billPaymentAmount
+
+                            log.audit('currentRemainingAmount === 0', billPaymentAmount)
+                        }
+
+                        if (currentRemainingAmount === '') {
+
+                            billPaymentAmount += baseAmount
+
+                            log.audit('currentRemainingAmount ==="" ', billPaymentAmount)
+                        }
+
                     }
                 }
+                else {
+
+                    if (!!isPartialPayment) {
+
+
+                        let partialAmount = parseFloat(billRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_wht_partial_payment_amount',
+                            line: i
+                        }));
 
 
 
+                        if (currentRemainingAmount > 0) {
+
+                            billPaymentAmount += partialAmount
+
+                            log.audit('currentRemainingAmount > 0', billPaymentAmount)
+
+                        }
+
+                        if (currentRemainingAmount === 0) {
+
+                            billPaymentAmount = billPaymentAmount
+
+                            log.audit('currentRemainingAmount === 0', billPaymentAmount)
+
+                        }
+
+                        if (currentRemainingAmount === '') {
+
+                            billPaymentAmount += partialAmount
+
+                            log.audit('currentRemainingAmount ==="" ', billPaymentAmount)
+
+                        }
+
+
+                        log.debug("billPaymentAmount : ", billPaymentAmount);
+
+
+
+
+                    }
+                    else {
+
+                        currentRemainingAmount === '' ? (billPaymentAmount = billPaymentAmount + amount) : billPaymentAmount
+
+
+                    }
+
+
+                }
 
             }
 
-            log.debug("billPaymentAmount : ", billPaymentAmount);
 
+
+
+            billRecord.save({ enableSourcing: false, ignoreMandatoryFields: true });
 
             return billPaymentAmount
 
         }
 
 
-
-
-        function getPartialAmount(billRecord, lineIndex, itemSublistId, amount, currentRemainingAmount) {
-            let partialAmount = parseFloat(billRecord.getSublistValue({
-                sublistId: itemSublistId,
-                fieldId: partialAmountItemField,
-                line: lineIndex
-            }));
-
-            let partialTaxAmount = parseFloat(billRecord.getSublistValue({
-                sublistId: itemSublistId,
-                fieldId: partialTaxAmountItemField,
-                line: lineIndex
-            }));
-
-            console.log(partialAmount - partialTaxAmount)
-
-            let amountDifference = partialAmount - partialTaxAmount;
-
-
-            return amountDifference
-        }
-
-        function getBaseAmount(billRecord, lineIndex, itemSublistId, amount, currentRemainingAmount) {
-
-            let baseAmount = parseFloat(billRecord.getSublistValue({
-                sublistId: itemSublistId,
-                fieldId: baseAmountItemField,
-                line: lineIndex
-            }));
-
-            log.debug("baseAmount : ", baseAmount);
-            logger("baseAmount : ", baseAmount);
-
-            let taxAmount = parseFloat(billRecord.getSublistValue({
-                sublistId: itemSublistId,
-                fieldId: taxAmountItemField,
-                line: lineIndex
-            }));
-
-            //    let amountDifference = baseAmount - taxAmount;
-
-            //  log.debug("billPaymentAmount : ", amountDifference);
-
-            return baseAmount
-        }
 
         function logger(title, variable) {
             return console.log(title, variable)
