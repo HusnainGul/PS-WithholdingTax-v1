@@ -1,7 +1,6 @@
 <customlist scriptid="customlist_wht_tax_payment_history">
   <description></description>
   <isinactive>F</isinactive>
-  <ismatrixoption>F</ismatrixoption>
   <isordered>T</isordered>
   <name>Tax Payment History</name>
 </customlist>

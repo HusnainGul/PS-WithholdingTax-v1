@@ -301,14 +301,6 @@ define(['N/record', 'N/search', 'N/task'],
 
                                 log.audit('currentRemainingAmount', currentRemainingAmount)
 
-                                // log.audit('currentRemainingAmount===0', currentRemainingAmount === 0)
-                                // log.audit('currentRemainingAmount===""', currentRemainingAmount === '')
-                                // log.audit('currentRemainingAmount==0', currentRemainingAmount == 0)
-                                // log.audit('currentRemainingAmount===""', currentRemainingAmount == '')
-                                // log.audit('currentRemainingAmount===undefined', currentRemainingAmount === undefined)
-                                // log.audit('currentRemainingAmount===null', currentRemainingAmount === null)
-                                // log.audit('currentRemainingAmount==undefined', currentRemainingAmount == undefined)
-                                // log.audit('currentRemainingAmount==null', currentRemainingAmount == null)
 
                                 if (currentRemainingAmount > 0) {
 
@@ -423,21 +415,75 @@ define(['N/record', 'N/search', 'N/task'],
                         }
                         else {
 
-                            currentRemainingAmount === '' ? (billPaymentAmount = billPaymentAmount + amount) : billPaymentAmount
+                            if (!!isPartialPayment) {
 
-                            billRecord.selectLine({
-                                sublistId: 'item',
-                                line: i
-                            });
 
-                            billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', value: formatNumberWithCommas(0) });
+                                let partialAmount = parseFloat(billRecord.getSublistValue({
+                                    sublistId: 'item',
+                                    fieldId: 'custcol_wht_partial_payment_amount',
+                                    line: i
+                                }));
 
-                            billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_partial_wht_amount', value: '' });
-                            billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_wht_partial_payment_amount', value: '' });
+                                let remainingAmount;
 
-                            billRecord.commitLine({
-                                sublistId: 'item'
-                            });
+                                if (currentRemainingAmount > 0) {
+
+                                    billPaymentAmount += partialAmount
+                                    remainingAmount = currentRemainingAmount - partialAmount
+                                    log.audit('currentRemainingAmount > 0', billPaymentAmount)
+                                    log.audit('remainingAmount > 0', remainingAmount)
+                                }
+
+                                if (currentRemainingAmount === 0) {
+
+                                    billPaymentAmount = billPaymentAmount
+                                    remainingAmount = currentRemainingAmount
+                                    log.audit('currentRemainingAmount === 0', billPaymentAmount)
+                                    log.audit('remainingAmount === 0', remainingAmount)
+                                }
+
+                                if (currentRemainingAmount === '') {
+
+                                    billPaymentAmount += partialAmount
+                                    remainingAmount = amount - partialAmount;
+                                    log.audit('currentRemainingAmount ==="" ', billPaymentAmount)
+                                    log.audit('remainingAmount === ""', remainingAmount)
+                                }
+
+
+                                log.debug("billPaymentAmount : ", billPaymentAmount);
+
+
+                                billRecord.selectLine({
+                                    sublistId: 'item',
+                                    line: i
+                                });
+
+                                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', value: formatNumberWithCommas(remainingAmount) });
+
+                                billRecord.commitLine({
+                                    sublistId: 'item'
+                                });
+
+                            }
+                            else {
+
+                                currentRemainingAmount === '' ? (billPaymentAmount = billPaymentAmount + amount) : billPaymentAmount
+
+                                billRecord.selectLine({
+                                    sublistId: 'item',
+                                    line: i
+                                });
+
+                                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_remaining_amount', value: formatNumberWithCommas(0) });
+
+                                billRecord.commitLine({
+                                    sublistId: 'item'
+                                });
+
+                            }
+
+
                         }
 
                     }

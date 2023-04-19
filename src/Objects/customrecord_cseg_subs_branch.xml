@@ -1,38 +1,22 @@
-<customrecordtype scriptid="customrecord_wht_tax_setup">
-  <accesstype>CUSTRECORDENTRYPERM</accesstype>
-  <allowattachments>T</allowattachments>
+<customrecordtype scriptid="customrecord_cseg_subs_branch">
+  <allowattachments>F</allowattachments>
   <allowinlinedeleting>F</allowinlinedeleting>
-  <allowinlinedetaching>T</allowinlinedetaching>
+  <allowinlinedetaching>F</allowinlinedetaching>
   <allowinlineediting>F</allowinlineediting>
-  <allowmobileaccess>F</allowmobileaccess>
-  <allownumberingoverride>F</allownumberingoverride>
-  <allowquickadd>T</allowquickadd>
+  <allowquickadd>F</allowquickadd>
   <allowquicksearch>F</allowquicksearch>
-  <allowuiaccess>T</allowuiaccess>
-  <customsegment></customsegment>
-  <description></description>
-  <enabledle>T</enabledle>
-  <enablekeywords>T</enablekeywords>
+  <customsegment>[type=customsegment, scriptid=cseg_subs_branch]</customsegment>
+  <enabledle>F</enabledle>
+  <enablekeywords>F</enablekeywords>
   <enablemailmerge>F</enablemailmerge>
-  <enablenumbering>F</enablenumbering>
-  <enableoptimisticlocking>T</enableoptimisticlocking>
+  <enableoptimisticlocking>F</enableoptimisticlocking>
   <enablesystemnotes>T</enablesystemnotes>
-  <hierarchical>F</hierarchical>
   <icon></icon>
   <iconbuiltin>T</iconbuiltin>
   <iconindex></iconindex>
-  <includeinsearchmenu>T</includeinsearchmenu>
-  <includename>T</includename>
-  <isinactive>F</isinactive>
-  <isordered>F</isordered>
-  <numberinginit></numberinginit>
-  <numberingmindigits></numberingmindigits>
-  <numberingprefix></numberingprefix>
-  <numberingsuffix></numberingsuffix>
-  <recordname>PS|WHT|Withholding Tax Setup</recordname>
+  <includeinsearchmenu>F</includeinsearchmenu>
   <showcreationdate>F</showcreationdate>
   <showcreationdateonlist>F</showcreationdateonlist>
-  <showid>F</showid>
   <showlastmodified>F</showlastmodified>
   <showlastmodifiedonlist>F</showlastmodifiedonlist>
   <shownotes>T</shownotes>
@@ -40,10 +24,10 @@
   <showownerallowchange>F</showownerallowchange>
   <showowneronlist>F</showowneronlist>
   <customrecordcustomfields>
-    <customrecordcustomfield scriptid="custrecord_wht_available_on_purchases">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_code">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
-      <applyformatting>F</applyformatting>
+      <applyformatting>T</applyformatting>
       <checkspelling>F</checkspelling>
       <defaultchecked>F</defaultchecked>
       <defaultselection></defaultselection>
@@ -54,13 +38,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>INTEGER</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Available on Purchases </label>
+      <label>Branch Code</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -79,7 +63,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_available_on_sales">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_city">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -93,13 +77,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Available on Sales</label>
+      <label>City</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -118,7 +102,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_user_override">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_zip">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -132,13 +116,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>User Override</label>
+      <label>ZIP (Postal Code)</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -157,7 +141,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_apply_witholding_on_total">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_cert_no_prfx">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -171,13 +155,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Apply Withholding on Totals</label>
+      <label>WHT Certificate No. Prefix</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -196,7 +180,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_auto_app_withholding_tax">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_addr1">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -210,13 +194,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Auto Apply Withholding Tax</label>
+      <label>Address 1</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -235,7 +219,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_disable_wht_in_purc_order">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_addr2">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -249,13 +233,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Disable WHT in Purchase Order </label>
+      <label>Address 2</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -274,7 +258,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_disable_wht_in_sales_ordr">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_addr3">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -288,13 +272,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>CHECKBOX</fieldtype>
+      <fieldtype>TEXT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Disable WHT in Sales Order</label>
+      <label>Address 3</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -313,7 +297,7 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_subsidiaries">
+    <customrecordcustomfield scriptid="custrecord_wht_subs_branch_filterby_subs">
       <accesslevel>2</accesslevel>
       <allowquickadd>F</allowquickadd>
       <applyformatting>F</applyformatting>
@@ -327,13 +311,13 @@
       <displaywidth></displaywidth>
       <dynamicdefault></dynamicdefault>
       <encryptatrest>F</encryptatrest>
-      <fieldtype>SELECT</fieldtype>
+      <fieldtype>MULTISELECT</fieldtype>
       <globalsearch>F</globalsearch>
       <help></help>
       <isformula>F</isformula>
       <ismandatory>F</ismandatory>
       <isparent>F</isparent>
-      <label>Subsidiaries</label>
+      <label>Filter by &quot;Subsidiary&quot;</label>
       <linktext></linktext>
       <maxlength></maxlength>
       <maxvalue></maxvalue>
@@ -352,122 +336,92 @@
       <storevalue>T</storevalue>
       <subtab></subtab>
     </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_tax_setup_country">
-      <accesslevel>2</accesslevel>
-      <allowquickadd>F</allowquickadd>
-      <applyformatting>F</applyformatting>
-      <checkspelling>F</checkspelling>
-      <defaultchecked>F</defaultchecked>
-      <defaultselection></defaultselection>
-      <defaultvalue></defaultvalue>
-      <description></description>
-      <displayheight></displayheight>
-      <displaytype>NORMAL</displaytype>
-      <displaywidth></displaywidth>
-      <dynamicdefault></dynamicdefault>
-      <encryptatrest>F</encryptatrest>
-      <fieldtype>SELECT</fieldtype>
-      <globalsearch>F</globalsearch>
-      <help></help>
-      <isformula>F</isformula>
-      <ismandatory>F</ismandatory>
-      <isparent>F</isparent>
-      <label>Country</label>
-      <linktext></linktext>
-      <maxlength></maxlength>
-      <maxvalue></maxvalue>
-      <minvalue></minvalue>
-      <onparentdelete>NO_ACTION</onparentdelete>
-      <parentsubtab></parentsubtab>
-      <rolerestrict>F</rolerestrict>
-      <searchcomparefield></searchcomparefield>
-      <searchdefault></searchdefault>
-      <searchlevel>2</searchlevel>
-      <selectrecordtype>[scriptid=customrecord_wht_country]</selectrecordtype>
-      <showinlist>T</showinlist>
-      <sourcefilterby></sourcefilterby>
-      <sourcefrom></sourcefrom>
-      <sourcelist></sourcelist>
-      <storevalue>T</storevalue>
-      <subtab></subtab>
-    </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_purchase_wht_tax_point">
-      <accesslevel>2</accesslevel>
-      <allowquickadd>F</allowquickadd>
-      <applyformatting>F</applyformatting>
-      <checkspelling>F</checkspelling>
-      <defaultchecked>F</defaultchecked>
-      <defaultselection></defaultselection>
-      <defaultvalue></defaultvalue>
-      <description></description>
-      <displayheight></displayheight>
-      <displaytype>NORMAL</displaytype>
-      <displaywidth></displaywidth>
-      <dynamicdefault></dynamicdefault>
-      <encryptatrest>F</encryptatrest>
-      <fieldtype>SELECT</fieldtype>
-      <globalsearch>F</globalsearch>
-      <help></help>
-      <isformula>F</isformula>
-      <ismandatory>F</ismandatory>
-      <isparent>F</isparent>
-      <label>Purchase Withholding Tax Point</label>
-      <linktext></linktext>
-      <maxlength></maxlength>
-      <maxvalue></maxvalue>
-      <minvalue></minvalue>
-      <onparentdelete>NO_ACTION</onparentdelete>
-      <parentsubtab></parentsubtab>
-      <rolerestrict>F</rolerestrict>
-      <searchcomparefield></searchcomparefield>
-      <searchdefault></searchdefault>
-      <searchlevel>2</searchlevel>
-      <selectrecordtype>[scriptid=customlist_wht_purchase_wht_tax_point]</selectrecordtype>
-      <showinlist>T</showinlist>
-      <sourcefilterby></sourcefilterby>
-      <sourcefrom></sourcefrom>
-      <sourcelist></sourcelist>
-      <storevalue>T</storevalue>
-      <subtab></subtab>
-    </customrecordcustomfield>
-    <customrecordcustomfield scriptid="custrecord_wht_sale_wht_tax_point">
-      <accesslevel>2</accesslevel>
-      <allowquickadd>F</allowquickadd>
-      <applyformatting>F</applyformatting>
-      <checkspelling>F</checkspelling>
-      <defaultchecked>F</defaultchecked>
-      <defaultselection></defaultselection>
-      <defaultvalue></defaultvalue>
-      <description></description>
-      <displayheight></displayheight>
-      <displaytype>NORMAL</displaytype>
-      <displaywidth></displaywidth>
-      <dynamicdefault></dynamicdefault>
-      <encryptatrest>F</encryptatrest>
-      <fieldtype>SELECT</fieldtype>
-      <globalsearch>F</globalsearch>
-      <help></help>
-      <isformula>F</isformula>
-      <ismandatory>F</ismandatory>
-      <isparent>F</isparent>
-      <label>Sale Withholding Tax Point</label>
-      <linktext></linktext>
-      <maxlength></maxlength>
-      <maxvalue></maxvalue>
-      <minvalue></minvalue>
-      <onparentdelete>NO_ACTION</onparentdelete>
-      <parentsubtab></parentsubtab>
-      <rolerestrict>F</rolerestrict>
-      <searchcomparefield></searchcomparefield>
-      <searchdefault></searchdefault>
-      <searchlevel>2</searchlevel>
-      <selectrecordtype>[scriptid=customlist_wht_sale_wht_tax_point]</selectrecordtype>
-      <showinlist>T</showinlist>
-      <sourcefilterby></sourcefilterby>
-      <sourcefrom></sourcefrom>
-      <sourcelist></sourcelist>
-      <storevalue>T</storevalue>
-      <subtab></subtab>
-    </customrecordcustomfield>
   </customrecordcustomfields>
+  <instances>
+    <instance scriptid="val_57432_t2397753_382">
+      <custrecord_wht_subs_branch_addr1></custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2></custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3></custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>Bangkok</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>4895</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>10150</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>Bangkok-Thailand</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_57524_t2397753_224">
+      <custrecord_wht_subs_branch_addr1>เลขที่ 120 (68/848) ซอยรัตนาธิเบศร์ 28 แยก 2 ถนนรัตนาธิเบศร์</custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2>ตําบลบางกระสอ</custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3>อําเภอเมือง</custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>จังหวัดนนทบุรี</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>4785</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>11000</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>00000: บลจ.เอ็นพีแอล</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_57525_t2397753_619">
+      <custrecord_wht_subs_branch_addr1>เลขที่ 55 ซอยรัตนาธิเบศร์ 28 แยก 2 ถนนรัตนาธิเบศร์</custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2>ตําบลบางกระสอ</custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3>อําเภอเมือง</custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>จังหวัดนนทบุรี</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>2534</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>11000</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>00000: บริษัท แม๊ก ซีเอ็มเอส จำกัด</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_57526_t2397753_974">
+      <custrecord_wht_subs_branch_addr1>เลขที่ 120 (68/848) ซอยรัตนาธิเบศร์ 28 แยก 2 ถนนรัตนาธิเบศร์</custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2>ตําบลบางกระสอ</custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3>อําเภอเมือง</custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>จังหวัดนนทบุรี</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>7894</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>11000</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>00000:บจก.บริหารสินทรัพย์ 2</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_57527_t2397753_894">
+      <custrecord_wht_subs_branch_addr1>เลขที่ 120 (68/848) ซอยรัตนาธิเบศร์ 28 แยก 2 ถนนรัตนาธิเบศร์</custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2>ตําบลบางกระสอ</custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3>อําเภอเมือง</custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>จังหวัดนนทบุรี</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>4789</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>11000</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>00000: บริษัทหลักทรัพย์จัดการกองทุน จำกัด</name>
+      <parent></parent>
+    </instance>
+    <instance scriptid="val_57528_t2397753_807">
+      <custrecord_wht_subs_branch_addr1>เลขที่ 55 ซอยรัตนาธิเบศร์ 28 แยก 2 ถนนรัตนาธิเบศร์</custrecord_wht_subs_branch_addr1>
+      <custrecord_wht_subs_branch_addr2>ตําบลบางกระสอ</custrecord_wht_subs_branch_addr2>
+      <custrecord_wht_subs_branch_addr3>อําเภอเมือง</custrecord_wht_subs_branch_addr3>
+      <custrecord_wht_subs_branch_cert_no_prfx></custrecord_wht_subs_branch_cert_no_prfx>
+      <custrecord_wht_subs_branch_city>จังหวัดนนทบุรี</custrecord_wht_subs_branch_city>
+      <custrecord_wht_subs_branch_code>5957</custrecord_wht_subs_branch_code>
+      <custrecord_wht_subs_branch_filterby_subs>[ACCOUNT_SPECIFIC_VALUE]</custrecord_wht_subs_branch_filterby_subs>
+      <custrecord_wht_subs_branch_zip>11000</custrecord_wht_subs_branch_zip>
+      <isinactive>F</isinactive>
+      <name>0000: บจก. ซีเอ็มเอส (ประเทศไทย)</name>
+      <parent></parent>
+    </instance>
+  </instances>
+  <links>
+    <link>
+      <linkcategory>BASICSETUPCOMPANY</linkcategory>
+      <linklabel></linklabel>
+      <linktasktype>LIST</linktasktype>
+    </link>
+  </links>
 </customrecordtype>

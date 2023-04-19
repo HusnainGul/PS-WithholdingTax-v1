@@ -29,7 +29,7 @@
   <numberingmindigits></numberingmindigits>
   <numberingprefix></numberingprefix>
   <numberingsuffix></numberingsuffix>
-  <recordname>Withholding Tax Type</recordname>
+  <recordname>PS|WHT|Withholding Tax Type</recordname>
   <showcreationdate>F</showcreationdate>
   <showcreationdateonlist>F</showcreationdateonlist>
   <showid>F</showid>

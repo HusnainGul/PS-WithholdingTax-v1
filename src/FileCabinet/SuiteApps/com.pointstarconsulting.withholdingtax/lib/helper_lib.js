@@ -4,7 +4,23 @@
  * @description This file contains all the saved searches for the project.
  */
 
-define(['N/search', 'N/record', 'N/format'], function (search, record, format) {
+define(['N/search', 'N/record', 'N/format', 'N/runtime', 'N/url'], function (search, record, format, runtime, url) {
+
+    function convertToNetsuiteDateFormat(dateString) {
+
+        const currentUser = runtime.getCurrentUser();
+
+        const netsuiteDateFormat = currentUser.getPreference({ name: 'DATEFORMAT' });
+
+        log.debug("netsuiteDateFormat: ", netsuiteDateFormat);
+
+        const parsedDate = format.parse({ value: dateString, type: format.Type.DATE, format: netsuiteDateFormat });
+
+        const netsuiteDateString = format.format({ value: parsedDate, type: format.Type.DATE });
+
+        return netsuiteDateString;
+    }
+
 
     function formatDate(date) {
         if (!date) {
@@ -195,11 +211,28 @@ define(['N/search', 'N/record', 'N/format'], function (search, record, format) {
     }
 
 
+    function formatNumberWithCommas(number) {
+        var decimalPlaces = 2;
+        var numberString = parseFloat(number).toFixed(decimalPlaces);
+        var parts = numberString.split(".");
+        var integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var decimalPart = parts.length > 1 ? "." + parts[1] : "";
+        return integerPart + decimalPart;
+    }
+
+    function openRecInNewWindow(recType, recId) {
+        let recordUrl = url.resolveRecord({ recordType: recType, recordId: recId, isEditMode: false })
+        window.open(recordUrl, '_blank');
+    }
+
 
 
     return {
         setBillPaymentAmount,
         parseDate,
-        formatDate
+        formatDate,
+        formatNumberWithCommas,
+        convertToNetsuiteDateFormat,
+        openRecInNewWindow
     }
 });

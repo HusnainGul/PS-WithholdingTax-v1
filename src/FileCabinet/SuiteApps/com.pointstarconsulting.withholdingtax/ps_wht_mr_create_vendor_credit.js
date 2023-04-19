@@ -117,7 +117,7 @@ define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', '
 
                 billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_partial_wht_amount', value: '' });
                 billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_wht_partial_payment_amount', value: '' });
-                billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_apply_partial_payments', value: false });
+                // billRecord.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_ps_wht_apply_partial_payments', value: false });
 
                 billRecord.commitLine({
                     sublistId: 'item'
@@ -133,7 +133,7 @@ define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', '
 
             log.debug("fromId : ", billdata.internalId);
 
-            let partialPayment = isPartialPayment(billdata.internalId)
+            // let partialPayment = isPartialPayment(billdata.internalId)
 
 
             let billCreditRecord = record.transform({
@@ -147,9 +147,9 @@ define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', '
             });
 
 
+            // let billDate = helper.formatDate(helper.parseDate(billdata.date))
+            let billDate = helper.convertToNetsuiteDateFormat(billdata.date)
 
-
-            let billDate = helper.formatDate(helper.parseDate(billdata.date))
             log.debug("billDate: ", billDate);
 
             billdata.date ? billCreditRecord.setText({
@@ -165,14 +165,22 @@ define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', '
 
             for (var i = 0; i < totalLines; i++) {
 
-                if (partialPayment == "F") {
+                let partialPayment = billCreditRecord.getSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_ps_wht_apply_partial_payments',
+                    line: i
+                });
+
+                log.debug("partialPayment: ", partialPayment);
+
+                if (partialPayment == false) {
                     taxAmount = parseFloat(billCreditRecord.getSublistValue({
                         sublistId: 'item',
                         fieldId: 'custcol_ps_wht_tax_amount',
                         line: i
                     }));
 
-                    log.debug("partialPayment == F");
+                    log.debug("partialPayment == false");
                 }
                 else {
                     taxAmount = parseFloat(billCreditRecord.getSublistValue({
@@ -180,7 +188,7 @@ define(['N/search', 'N/record', 'N/config', './modules/moment.js', 'N/format', '
                         fieldId: 'custcol_ps_wht_partial_wht_amount',
                         line: i
                     }));
-                    log.debug("partialPayment == T");
+                    log.debug("partialPayment == true");
                 }
 
                 let taxCode = billCreditRecord.getSublistText({
